@@ -27,3 +27,19 @@ exports.addTicket = async function addTicket(ticket) {
     }
 }
 
+
+exports.updateTicket = async function updateTicket(id, ticket) {
+    try {
+        const client = await Client.connect()
+        const col = client.db("ticketBooking").collection("tickets")
+        // console.log(product)
+        let data = await col.updateOne({_id : new ObjectID(id)},
+        {$set: ticket})
+        return data 
+    }
+    catch (e) {
+        console.error(e)
+    }
+
+}
+
