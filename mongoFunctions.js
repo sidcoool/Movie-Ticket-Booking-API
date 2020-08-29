@@ -25,7 +25,18 @@ exports.getTicket = async function getTicket(id) {
     catch (e) {
         console.error(e)
     }
+}
 
+exports.getTicketsByTime = async function getTicketsByTime(timing) {
+    try {
+        const client = await Client.connect()
+        const col = client.db("ticketBooking").collection("tickets")
+        let data = await col.find({date: timing.date, time: timing.time}).toArray()
+        return data 
+    }
+    catch (e) {
+        console.error(e)
+    }
 }
 
 exports.addTicket = async function addTicket(ticket) {
@@ -45,7 +56,6 @@ exports.updateTicket = async function updateTicket(id, ticket) {
     try {
         const client = await Client.connect()
         const col = client.db("ticketBooking").collection("tickets")
-        // console.log(product)
         let data = await col.updateOne({_id : new ObjectID(id)},
         {$set: ticket})
         return data 
@@ -55,4 +65,17 @@ exports.updateTicket = async function updateTicket(id, ticket) {
     }
 
 }
+
+exports.deleteTicket = async function deleteTicket(id) {
+    try {
+        const client = await Client.connect()
+        const col = client.db("ticketBooking").collection("tickets")
+        let data = await col.remove({_id : new ObjectID(id)})
+        return data 
+    }
+    catch (e) {
+        console.error(e)
+    }
+}
+
 

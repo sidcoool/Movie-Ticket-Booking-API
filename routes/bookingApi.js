@@ -3,21 +3,48 @@ const router = express.Router()
 const mongoFunctions = require("../mongoFunctions")
 
 
+
 router.get("/", async (req, res) => {
     let data = await mongoFunctions.getAll()
     res.json(data)
 })
 
 
-router.get("/:id", async (req, res) => {
-    let data = await mongoFunctions.getTicket(req.params.id)
+router.get("/:id", async (req, res, next) => {
+    if (req.params.id == "timing") {
+        next()
+    }
+    else {
+        let data = await mongoFunctions.getTicket(req.params.id)
+
+        if (!data) {
+            res.json({
+                "msg": "Error Occured"
+            })
+        }
+        else if (data.length == 1) {
+            res.json(data)
+        }
+        else if (data.length == 0) {
+            res.json({
+                "msg": "No Ticket Found"
+            })
+        }
+    }
+
+})
+
+router.get("/timing", async (req, res) => {
+    console.log(req.query)
+    // res.send("sdq")
+    let data = await mongoFunctions.getTicketsByTime(req.query)
 
     if (!data) {
         res.json({
             "msg": "Error Occured"
         })
     }
-    else if (data.length == 1) {
+    else if (data.length > 0) {
         res.json(data)
     }
     else if (data.length == 0) {
@@ -79,5 +106,28 @@ router.patch("/:id", async (req, res) => {
         })
     }
 })
+
+
+router.delete("/:id", async (req, res) => {
+
+    let data = await mongoFunctions.deleteTicket(req.params.id)
+    // console.log(data)
+    if (data && data.result.n) {
+        res.json({ "deleted": "true" })
+    }
+    else if (data.result.n == 0) {
+        res.json({
+            "deleted": "false",
+            "msg": "ID not found"
+        })
+    }
+    else {
+        res.json({
+            "deleted": "false",
+            "msg": "Error Occured"
+        })
+    }
+})
+
 
 module.exports = router
