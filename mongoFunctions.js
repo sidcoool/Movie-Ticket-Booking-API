@@ -15,6 +15,19 @@ exports.getAll = async function getAll() {
 
 }
 
+exports.getTicket = async function getTicket(id) {
+    try {
+        const client = await Client.connect()
+        const col = client.db("ticketBooking").collection("tickets")
+        let data = await col.find({_id : new ObjectID(id)}).toArray()
+        return data 
+    }
+    catch (e) {
+        console.error(e)
+    }
+
+}
+
 exports.addTicket = async function addTicket(ticket) {
     try {
         const client = await Client.connect()

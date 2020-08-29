@@ -2,17 +2,29 @@ const express = require("express")
 const router = express.Router()
 const mongoFunctions = require("../mongoFunctions")
 
-const convertMins = (d) => {
-
-
-    return time
-    // console.log(time)
-}
-
 
 router.get("/", async (req, res) => {
     let data = await mongoFunctions.getAll()
     res.json(data)
+})
+
+
+router.get("/:id", async (req, res) => {
+    let data = await mongoFunctions.getTicket(req.params.id)
+
+    if (!data) {
+        res.json({
+            "msg": "Error Occured"
+        })
+    }
+    else if (data.length == 1) {
+        res.json(data)
+    }
+    else if (data.length == 0) {
+        res.json({
+            "msg": "No Ticket Found"
+        })
+    }
 })
 
 router.post("/", async (req, res) => {
@@ -54,10 +66,16 @@ router.patch("/:id", async (req, res) => {
     if (data && data.result.n) {
         res.json({ "updated": "true" })
     }
-    else {
+    else if (data.result.n == 0) {
         res.json({
             "updated": "false",
             "msg": "ID not found"
+        })
+    }
+    else {
+        res.json({
+            "updated": "false",
+            "msg": "Error Occured"
         })
     }
 })
