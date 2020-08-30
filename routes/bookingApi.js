@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 
 
 router.get("/:id", async (req, res, next) => {
-    if (req.params.id == "timing") {
+    if (req.params.id == "timing" || isNaN(req.params.id)) {
         next()
     }
     else {
@@ -19,7 +19,7 @@ router.get("/:id", async (req, res, next) => {
 
         if (!data) {
             res.json({
-                "msg": "Error Occured"
+                "msg": "Error Occured (Invalid ID)" 
             })
         }
         else if (data.length == 1) {
@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
 
     let diff = (d1 - d2) / (60 * 60 * 1000)
     console.log(diff)
-    req.body.timestamp = new Date()
+    req.body.timestamp = d1
 
     if (diff > 8) {
         res.json({
@@ -71,6 +71,8 @@ router.post("/", async (req, res) => {
         })
     }
     else {
+        req.body.expireAt = new Date(d1.getTime() + ((8-diff)*60*60*1000))
+
         let data = await mongoFunctions.addTicket(req.body)
         if (data) {
             res.json({
@@ -127,6 +129,10 @@ router.delete("/:id", async (req, res) => {
             "msg": "Error Occured"
         })
     }
+})
+
+router.use((req, res) => {
+    res.send("<html> <h1><center> 404 Not Found </h1></center> </html>")
 })
 
 
