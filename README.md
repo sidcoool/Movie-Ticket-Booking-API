@@ -1,5 +1,7 @@
 # Movie-Ticket-Booking-API
-Movie-Ticket-Booking-API - Built on NodeJS(Express, Mocha, Chai) and MongoDB
+Movie Ticket Booking API - Built on NodeJS(Express, Mocha, Chai) and MongoDB
+
+Following the REST paradigm
 
 [Go to Commits](https://github.com/sidcoool/Movie-Ticket-Booking-API/commits?author=sidcoool)
 
