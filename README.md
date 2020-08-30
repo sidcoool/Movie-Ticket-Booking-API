@@ -22,6 +22,7 @@ For development, you will only need Node.js and a node global package, NPM, inst
 - MongoDB : Library for Interacting with MongoDb Atlas database
 - Mocha : Running Test
 - Chai : Assertion and Value Checking
+- Request : For making API calls while testing
 
 ## Project Tree
 ```
@@ -94,15 +95,15 @@ For development, you will only need Node.js and a node global package, NPM, inst
  ## Bonus Features-
  
  ### 1) Delete all the tickets which are expired automatically. 
-    - Added TTL (Time to Live) Index in MongoDB as
+   - Added TTL (Time to Live) Index in MongoDB as
 ```db.log_events.createIndex( { "expireAt": 1 }, { expireAfterSeconds: 0 } )```
-    - Adding the following value in code
+   - Adding the following value in code
 ```req.body.expireAt = new Date(d1.getTime() + ((8-diff)*60*60*1000))```
-    - The above line add the a expire time that is (8 - timeDifferenceInHours)
+   - The above line add the a expire time that is (8 - timeDifferenceInHours)
 
 ### 2) Write the tests for all the endpoints.
-    - Written tests for all endpoints using Mocha and Chai 
-    - Used request framework for making API requests
+   - Written tests for all endpoints using Mocha and Chai 
+   - Used request framework for making API requests
     
 ![Screen](Screens/RunningTests.png)
     
