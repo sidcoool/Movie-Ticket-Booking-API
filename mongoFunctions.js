@@ -1,6 +1,7 @@
 const { MongoClient, ObjectID } = require('mongodb')
 const uri = "mongodb+srv://sid:booking_123@cluster0.gopwg.mongodb.net/ticketBooking?retryWrites=true&w=majority"
-const Client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true})
+const Client = new MongoClient(uri, {useUnifiedTopology: true})
+
 
 exports.getAll = async function getAll() {
     try {

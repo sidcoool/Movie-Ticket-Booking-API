@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 
 
 router.get("/:id", async (req, res, next) => {
-    if (req.params.id == "timing" || isNaN(req.params.id)) {
+    if (req.params.id == "timing") {
         next()
     }
     else {
@@ -131,9 +131,9 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
-router.use((req, res) => {
-    res.send("<html> <h1><center> 404 Not Found </h1></center> </html>")
-})
+// router.use((req, res) => {
+//     res.send("<html> <h1><center> 404 Not Found </h1></center> </html>")
+// })
 
 
 module.exports = router
